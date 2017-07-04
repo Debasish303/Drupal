@@ -1,0 +1,7 @@
+name = Custom
+description = "Simple approach showing token in Drupal"
+core = 7.x
+version = 7.x.1
+
+; NEW LINE
+configure = admin/config/content/current_posts
