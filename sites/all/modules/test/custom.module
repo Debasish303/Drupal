@@ -1,0 +1,178 @@
+<?php
+
+/**
+ * Implementation fo hook_menu in Drupal
+ */
+
+function custom_menu() {
+  $items = array();
+  $items['custom'] = array(
+    'title' => 'Simple module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('custom_simple_form'),
+    'access callback' => TRUE,
+  );
+  $items['admin/config/content/current_posts'] = array(
+    'title' => 'Current posts',
+    'description' => 'Configuration for Current posts module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('current_posts_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+function custom_permission() {
+  return array('access administration pages' => array('title' => t('Access content for the current post module')));
+}
+
+function custom_simple_form($form , &$form_state) {
+  $form['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#placeholder' => t('Enter your Name'),
+    '#required' => TRUE,
+  );
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#placeholder' => t('Enter your Title'),
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form; 
+}
+
+function custom_simple_form_submit($form, &$form_state) {
+  $name = $form_state['values']['name'];
+  $title = $form_state['values']['title'];
+  drupal_set_message(t('Your submitted values are @name , @title', array('@name' => $name , '@title' => $title)));
+}
+
+function current_posts_form($form ,&$form_state) {
+  $form['numberofposts'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#placeholder' => t('Enter your Name'),
+    '#required' => TRUE,
+  );
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#placeholder' => t('Enter your Title'),
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form; 
+}
+ /**
+ * Implements hook_token_info(). This hook will register tow token lname and fname.
+ */
+/*function custom_token_info() {
+  $info['tokens']['custom']['fname'] = array(
+    'name' => t('First name'),
+    'description' => t('First name re placer for fname '),
+  );
+  $info['tokens']['custom']['lname'] = array(
+    'name' => t('Last name'),
+    'description' => t('Last name re placer for lname '),
+  );
+  return $info;
+} 
+*/
+
+/**
+ * Implements hook_tokens(). This hook will operate the token and replace it with it's value.
+ */
+/*function custom_tokens($type, $tokens, array $data = array(), array $options = array()) {
+	echo "<pre>";
+	print_r(token_get_info());
+	echo "</pre>";
+	$replacements = array();
+	$sanitize = !empty($options['sanitize']);
+	if ($type == 'custom') {
+	    foreach ($tokens as $name => $original) {
+	      	if (array_key_exists($name, $data)) {
+	      		$replacements[$original] = $data[$name];	
+	      	}
+	    }
+	}
+	return $replacements;
+}*/
+
+/**
+ * Here we will use the token_replace() function to get the actual content after replacement.
+ */
+/*function custom_myfunction() {
+	$custom = array();
+	$custom['fname'] = 'Rajat';
+	$custom['lname'] = 'Gusain';
+	$data = $custom;
+	$temp = "Full name : [custom:fname] [custom:lname]";
+	$temp = token_replace($temp, $data);
+// After token replacement $temp variable will contain " Full name : Rajat Gusain"
+} 
+
+function custom_menu() {
+	$items = array();
+	$items['test/token'] = array(
+		'title' => 'token example',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('custom_example_form'),
+		'access callback' => TRUE,
+	);
+	return $items;
+}
+
+function custom_example_form($form, &$form_state) {
+	$entities = entity_get_info();
+   
+  $token_types = array();
+  $form = array();
+     
+  if (!empty( $form_state['storage']['title_dummy']))  
+  $form['title_dummy']['#default_value'] = $form_state['storage']['title_dummy'];
+  
+  $form['title_dummy'] = array(
+  '#type' => 'textfield',
+  '#title' => t('Subject'),  
+  '#size' => 60,
+  '#maxlength' => 128,
+  '#required' => TRUE,
+);
+  $form['text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Enter your text here'),
+    '#default_value' => 'Hello [current-user:name]!'
+  );
+ 
+  if(!empty( $form_state['storage']['desc']))   
+    $form['text']['#default_value'] = $form_state['storage']['desc'];
+ 
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+ // Token tree display STARTS
+  if (module_exists('token')) {
+    $form['token_tree'] = array(
+      '#theme' => 'token_tree',
+      '#token_types' => $token_types,
+    );
+  }
+  else {
+    $form['token_tree'] = array(
+      '#markup' => '' . t('Enable the Token module to view the available token browser.', array('@drupal-token' => 'http://drupal.org/project/token')) . '',
+    );
+  }
+ // Token tree display ENDS
+    return $form;
+   
+}*/
